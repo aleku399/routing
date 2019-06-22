@@ -22,24 +22,33 @@ class SideNav extends React.Component {
     this.observer = new IntersectionObserver(this.observerCallback, {threshold: 0.7});
     this.addObserverToTargets();
   }
-
   observerCallback = (entries, observer) => {
     console.log(observer);
     const activeIds = entries.map( (entry) => {
       if (entry.intersectionRatio > 0 ) {
-        return entry.target.id; 
-      } 
+        return entry.target.id;
+      }
       return entry.target
     });
     console.log("activeIds", activeIds);
     if (activeIds.length !== this.props.anchors.length) {
       const activeHash = activeIds[0];
       // console.log("activeHasevent.target.dataset.valueh", activeHash);
-      const anchors = this.state.anchors.map(obj => {  
+      const anchors = this.state.anchors.map(obj => {
        return obj.hash === activeHash ? { ...obj, isActive: true } : {...obj, isActive: false}
       })
       this.setState({ anchors })
     }
+    this.hideLabels();
+  }
+
+  hideLabels () {
+    setTimeout(() => {
+      const anchors = this.state.anchors.map(obj => {
+        return {...obj, isActive: false};
+       });
+      this.setState({ anchors });
+    }, 1000);
   }
 
   addObserverToTargets = () => {
