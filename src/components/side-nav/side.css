@@ -2,6 +2,10 @@
 	scroll-behavior: smooth;
 }
 
+.active {
+	border-bottom: 1px solid #333;
+}
+
 .sidebar {
 	list-style-type: none;
 	position: fixed;
@@ -24,7 +28,7 @@
   text-align: -webkit-match-parent;
 }
 
-.dot {
+.u {
 	background-color: red;
 	margin-left: 13px;
 	opacity: .25;
@@ -46,11 +50,23 @@
 	margin: 5px 0 0 14px;
 }
 
-.link:active .r {
+
+.dot {
 	background-color: red;
 	margin-left: 13px;
 	opacity: 1;
-	width: px;
+	width: 3px;
+	height: 23px;
+	position: relative;
+	transition: height .2s ease;
+	margin: 5px 0 0 14px;
+}
+
+li:active .u {
+	background-color: red;
+	margin-left: 13px;
+	opacity: 1;
+	width: 3px;
 	height: 23px;
 	position: relative;
 	transition: height .2s ease;

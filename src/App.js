@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch} from "react-router-dom";
+import ReactPageScroller from "react-page-scroller";
+
 import './App.css';
 
 import Home from "./components/home";
@@ -8,12 +10,32 @@ import News from "./components/news";
 import Footer from "./components/footer";
 import SideNav from "./components/side-nav";
 
+const anchors = [
+  {
+    hash: "home",
+    title: "Home",
+    isActive: false,
+  },
+  {
+    hash: "about",
+    title: "About",
+    isActive: false,
+  },
+  {
+    hash: "news",
+    title: "News",
+    isActive: false,
+  }
+]
+
 class App extends React.Component {
- 
+  goToPage = () => {
+    this.reactPageScroller.goToPage(<SideNav anchors={anchors} /> );
+  }
   renderMain(){
     return (
-      <div className="container_scroll">
-        <SideNav anchors={this.props.anchors} />
+    <React.Fragment>
+      <ReactPageScroller ref={c => this.reactPageScroller = c}>
           <div className="child">
             <Home />
           </div>
@@ -24,7 +46,8 @@ class App extends React.Component {
             <News />
           </div>
         <Footer />
-      </div>
+      </ReactPageScroller>
+      </React.Fragment>
     )
   }
 

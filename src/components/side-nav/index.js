@@ -22,15 +22,16 @@ class SideNav extends React.Component {
     this.observer = new IntersectionObserver(this.observerCallback, {threshold: 0.7});
     this.addObserverToTargets();
   }
+
   observerCallback = (entries, observer) => {
-    console.log(observer);
+    // console.log(observer);
     const activeIds = entries.map( (entry) => {
       if (entry.intersectionRatio > 0 ) {
         return entry.target.id;
       }
       return entry.target
     });
-    console.log("activeIds", activeIds);
+    // console.log("activeIds", activeIds);
     if (activeIds.length !== this.props.anchors.length) {
       const activeHash = activeIds[0];
       // console.log("activeHasevent.target.dataset.valueh", activeHash);
@@ -48,7 +49,7 @@ class SideNav extends React.Component {
         return {...obj, isActive: false};
        });
       this.setState({ anchors });
-    }, 1000);
+    }, 3000);
   }
 
   addObserverToTargets = () => {
@@ -58,13 +59,11 @@ class SideNav extends React.Component {
     });
   }
   
-  handleClick = (event) => {
-    console.log(event.target.dataset.value)
-    const anchors = this.state.anchors.map(obj => {  
-      return obj.hash === event.target.dataset.value ? { ...obj, isActive: true } : {...obj, isActive: false}
-     })
-     this.setState({ anchors })
-  }
+  // handleScroll = () => {
+  //     this.state.anchors.forEach((obj) => {
+  //       const tab = document.getElementById(obj.hash);
+  //     })
+  // }
 
   render () {
     return (
@@ -73,7 +72,7 @@ class SideNav extends React.Component {
           {
             this.state.anchors.map(anc => (
             <li className="link" key={anc.hash}>
-              <div className={`dot ${anc.isActive ? "r" : "u"}`}></div>
+              <div id="btn1"  className={`${anc.isActive ? "r" :  "u"}`}></div>
               <a
                 className={`label ${anc.isActive ? "active" : "hidden"}`}
                 href={`#${anc.hash}`}
