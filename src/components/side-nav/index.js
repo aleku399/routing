@@ -1,10 +1,5 @@
 /* eslint-disable no-restricted-globals */
 import React from 'react';
-// import { HashLink as Link } from 'react-router-hash-link';
-// import styled, { css } from 'styled-components';
-// import Home from "../home";
-// import About from "../about";
-// import News from "../news";
 
 import "./side.css";
 
@@ -31,17 +26,15 @@ class SideNav extends React.Component {
   }
 
   observerCallback = (entries, observer) => {
-    // console.log(observer);
     const activeTargets = entries.map( (entry) => {
       if (entry.intersectionRatio > 0 ) {
         return entry.target.id;
       }
       return entry.target
     });
-    // console.log("activeTargets", activeTargets);
+
     if (activeTargets.length !== this.props.pages.length) {
       const activeHash = activeTargets[0];
-      // console.log("activeHasevent.target.dataset.valueh", activeHash);
       const pages = this.state.pages.map(obj => {
        return obj.hash === activeHash ? { ...obj, isActive: true } : {...obj, isActive: false}
       })

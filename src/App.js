@@ -32,31 +32,6 @@ const pages =[
 ]
 class App extends React.Component {
 
-  // constructor (props) {
-  //   super(props);
-  // }
-
-  // componentDidUpdate (prevProps, prevState) {
-  //   console.log("prevState", prevState)
-  // }
-
-  // goToPage = () => {
-  //   this.reactPageScroller.goToPage(this.pageNumber);
-  // };
-
-  // pageOnChange = (number) => {
-  //   const activePage = pages[(number - 1) < pages.length ? (number - 1) : (pages.length - 1) ];
-  //   const updatedPages =
-  //     pages.map(page => page.hash === activePage.hash ? {...page, isActive: true}: page);
-
-  //   if(this.state.activePage.hash !== activePage.hash) {
-  //     console.log("pageChange", number);
-  //     // this.setState({ pages: updatedPages, activePage, pageNumber: number})
-  //     // this.goToPage(number)
-  //   }
-
-  // }
-
   renderMain(){
     return (
     <React.Fragment>
