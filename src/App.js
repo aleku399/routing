@@ -10,31 +10,32 @@ import News from "./components/news";
 import Footer from "./components/footer";
 import SideNav from "./components/side-nav";
 
-const anchors = [
+const pages =[
   {
     hash: "home",
     title: "Home",
     isActive: false,
+    isObserved: false,
   },
   {
     hash: "about",
     title: "About",
     isActive: false,
+    isObserved: false,
   },
   {
     hash: "news",
     title: "News",
     isActive: false,
+    isObserved: false,
   }
 ]
-
 class App extends React.Component {
-  goToPage = () => {
-    this.reactPageScroller.goToPage(<SideNav anchors={anchors} /> );
-  }
+
   renderMain(){
     return (
     <React.Fragment>
+      <SideNav pages={pages} />
       <ReactPageScroller ref={c => this.reactPageScroller = c}>
           <div className="child">
             <Home />
@@ -45,9 +46,11 @@ class App extends React.Component {
           <div className="child">
             <News />
           </div>
-        <Footer />
+
       </ReactPageScroller>
-      </React.Fragment>
+
+      <Footer />
+    </React.Fragment>
     )
   }
 
@@ -56,12 +59,12 @@ class App extends React.Component {
       <div>
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" component={() => this.renderMain()} /> 
+            <Route exact path="/" component={() => this.renderMain()} />
             <Route path="/home" component={Home} />
             <Route path="/about" component={About} />
             <Route path="/news" component={News} />
             <Route render={() => <h1>Page not found</h1>} />
-          </Switch> 
+          </Switch>
         </BrowserRouter>
       </div>
     )

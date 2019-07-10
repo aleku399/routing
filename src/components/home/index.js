@@ -17,11 +17,11 @@ const arrImages =  [j2, j3, j4]
 class Home extends React.Component {
     render() {
       return (
-      <div className="container" id="home" style={sectionStyle} ref={this.props.forwardedRef}> 
-        <div className="content-wrap"> 
+      <div className="container" id="home" style={sectionStyle} ref={this.props.forwardedRef}>
+        <div className="content-wrap">
           <App images={arrImages} />
         </div>
-      </div> 
+      </div>
     )
   }
 }
