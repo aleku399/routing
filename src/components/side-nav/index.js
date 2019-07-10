@@ -9,70 +9,81 @@ import React from 'react';
 import "./side.css";
 
 class SideNav extends React.Component {
-  observe = null;
 
   constructor(props) {
     super(props)
+    this.timer = null;
+    this.observer = null
     this.state = {
-      anchors: this.props.anchors
+      pages: this.props.pages
     }
   }
 
   componentDidMount() {
     this.observer = new IntersectionObserver(this.observerCallback, {threshold: 0.7});
-    this.addObserverToTargets();
+    // we delay adding components to observer because react page scroller delays adding them to DOM
+    setTimeout(() => this.addObserverToTargets(), 1000);
+  }
+
+  componentWillUnmount () {
+    this.observer = null
+    clearTimeout(this.timer);
   }
 
   observerCallback = (entries, observer) => {
     // console.log(observer);
-    const activeIds = entries.map( (entry) => {
+    const activeTargets = entries.map( (entry) => {
       if (entry.intersectionRatio > 0 ) {
         return entry.target.id;
       }
       return entry.target
     });
-    // console.log("activeIds", activeIds);
-    if (activeIds.length !== this.props.anchors.length) {
-      const activeHash = activeIds[0];
+    // console.log("activeTargets", activeTargets);
+    if (activeTargets.length !== this.props.pages.length) {
+      const activeHash = activeTargets[0];
       // console.log("activeHasevent.target.dataset.valueh", activeHash);
-      const anchors = this.state.anchors.map(obj => {
+      const pages = this.state.pages.map(obj => {
        return obj.hash === activeHash ? { ...obj, isActive: true } : {...obj, isActive: false}
       })
-      this.setState({ anchors })
+      this.setState({ pages })
+      this.hideLabels();
+      this.addObserverToTargets();
     }
-    this.hideLabels();
-  }
 
-  hideLabels () {
-    setTimeout(() => {
-      const anchors = this.state.anchors.map(obj => {
-        return {...obj, isActive: false};
-       });
-      this.setState({ anchors });
-    }, 3000);
   }
 
   addObserverToTargets = () => {
-    this.props.anchors.forEach((anc) => {
+    const pages = this.state.pages.map((anc) => {
       const target = document.getElementById(anc.hash);
-      this.observer.observe(target);
+
+      if (target && !anc.isObserved) {
+        this.observer.observe(target);
+        return { ...anc, isObserved: true}
+      }
+
+      return anc;
     });
+    this.setState({ pages })
   }
-  
-  // handleScroll = () => {
-  //     this.state.anchors.forEach((obj) => {
-  //       const tab = document.getElementById(obj.hash);
-  //     })
-  // }
+
+
+  hideLabels () {
+    this.timer = setTimeout(() => {
+      const pages = this.state.pages.map(obj => {
+        return {...obj, isActive: false};
+       });
+      this.setState({ pages });
+    }, 700);
+  }
 
   render () {
     return (
       <div>
           <ul className="sidebar">
           {
-            this.state.anchors.map(anc => (
+            this.state.pages.map(anc => (
             <li className="link" key={anc.hash}>
-              <div id="btn1"  className={`${anc.isActive ? "r" :  "u"}`}></div>
+              <div id="btn1" className={`${anc.isActive ? "r" :  "u"}`}></div>
               <a
                 className={`label ${anc.isActive ? "active" : "hidden"}`}
                 href={`#${anc.hash}`}
@@ -83,7 +94,7 @@ class SideNav extends React.Component {
               </a>
             </li>
             ) )
-          }  
+          }
           </ul>
       </div>
     );
