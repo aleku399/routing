@@ -25,7 +25,7 @@ class SideNav extends React.Component {
     clearTimeout(this.timer);
   }
 
-  observerCallback = (entries, observer) => {
+  observerCallback = (entries, _observer) => {
     const activeTargets = entries.map( (entry) => {
       if (entry.intersectionRatio > 0 ) {
         return entry.target.id;
@@ -69,19 +69,25 @@ class SideNav extends React.Component {
     }, 700);
   }
 
+  handleClick = (pageNumber) => (event) => {
+    console.log("page to navigate to", pageNumber)
+    this.props.goToPage(pageNumber);
+    event.preventDefault();
+  }
+
   render () {
     return (
       <div>
           <ul className="sidebar">
           {
-            this.state.pages.map(anc => (
+            this.state.pages.map((anc, index) => (
             <li className="link" key={anc.hash}>
               <div id="btn1" className={`${anc.isActive ? "r" :  "u"}`}></div>
               <a
                 className={`label ${anc.isActive ? "active" : "hidden"}`}
-                href={`#${anc.hash}`}
                 data-value={anc.hash}
-                onClick={this.handleClick}
+                href={`#${anc.hash}`}
+                onClick={this.handleClick(index)}
               >
                 {anc.title}
               </a>
