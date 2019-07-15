@@ -7,7 +7,7 @@ class SideNav extends React.Component {
 
   constructor(props) {
     super(props)
-    this.timer = null;
+    this.hideLabelsTimer = null;
     this.showActiveLabelTimer = null;
     this.observer = null
     this.observed = [];
@@ -25,7 +25,7 @@ class SideNav extends React.Component {
 
   componentWillUnmount () {
     clearTimeout(this.showLabel);
-    clearTimeout(this.timer);
+    clearTimeout(this.hideLabelsTimer);
   }
 
   observerCallback = (entries, _observer) => {
@@ -80,8 +80,8 @@ class SideNav extends React.Component {
     }, 600);
   }
 
-  hideLabels () {
-    this.timer = setTimeout(() => {
+  hideLabels = () => {
+    this.hideLabelsTimer = setTimeout(() => {
       const pages = this.state.pages.map(obj => {
         return {...obj, isActive: false};
        });
