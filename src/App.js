@@ -32,11 +32,18 @@ const pages =[
 ]
 class App extends React.Component {
 
-  renderMain(){
+  goToPage = (pageNumber) => {
+    return this.reactPageScroller.goToPage(pageNumber)
+  }
+
+  pageOnChange = (pageNumber) => {
+    console.log("current page", pageNumber)
+  }
+
+  renderMain = () => {
     return (
     <React.Fragment>
-      <SideNav pages={pages} />
-      <ReactPageScroller ref={c => this.reactPageScroller = c}>
+      <ReactPageScroller ref={c => this.reactPageScroller = c} pageOnChange={this.pageOnChange}>
           <div className="child">
             <Home />
           </div>
@@ -46,9 +53,8 @@ class App extends React.Component {
           <div className="child">
             <News />
           </div>
-
       </ReactPageScroller>
-
+      <SideNav pages={pages} goToPage={this.goToPage} />
       <Footer />
     </React.Fragment>
     )

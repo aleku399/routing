@@ -7,8 +7,11 @@ class SideNav extends React.Component {
 
   constructor(props) {
     super(props)
-    this.timer = null;
+    this.hideLabelsTimer = null;
+    this.showActiveLabelTimer = null;
     this.observer = null
+    this.observed = [];
+    this.triggerRender = true;
     this.state = {
       pages: this.props.pages
     }
@@ -21,11 +24,11 @@ class SideNav extends React.Component {
   }
 
   componentWillUnmount () {
-    this.observer = null
-    clearTimeout(this.timer);
+    clearTimeout(this.showLabel);
+    clearTimeout(this.hideLabelsTimer);
   }
 
-  observerCallback = (entries, observer) => {
+  observerCallback = (entries, _observer) => {
     const activeTargets = entries.map( (entry) => {
       if (entry.intersectionRatio > 0 ) {
         return entry.target.id;
@@ -35,15 +38,20 @@ class SideNav extends React.Component {
 
     if (activeTargets.length !== this.props.pages.length) {
       const activeHash = activeTargets[0];
-      const pages = this.state.pages.map(obj => {
-       return obj.hash === activeHash ? { ...obj, isActive: true } : {...obj, isActive: false}
+      const page = this.state.pages.find(obj => {
+       return obj.hash === activeHash
       })
-      this.setState({ pages })
-      this.hideLabels();
+      this.observed = [...this.observed, page]
+
+      if (this.triggerRender) {
+        this.triggerRender = false;
+        this.showLabel();
+      }
+
       this.addObserverToTargets();
     }
-
   }
+
 
   addObserverToTargets = () => {
     const pages = this.state.pages.map((anc) => {
@@ -59,9 +67,21 @@ class SideNav extends React.Component {
     this.setState({ pages })
   }
 
+  showLabel = () => {
+    this.showActiveLabelTimer = setTimeout(() => {
+      this.triggerRender = true;
+      const active = this.observed[this.observed.length - 1]
+      const pages = this.state.pages.map(obj => {
+        return active.hash === obj.hash
+          ? {...obj, isActive: true} : {...obj, isActive: false};
+       });
+      this.setState({ pages });
+      this.hideLabels();
+    }, 600);
+  }
 
-  hideLabels () {
-    this.timer = setTimeout(() => {
+  hideLabels = () => {
+    this.hideLabelsTimer = setTimeout(() => {
       const pages = this.state.pages.map(obj => {
         return {...obj, isActive: false};
        });
@@ -69,19 +89,25 @@ class SideNav extends React.Component {
     }, 700);
   }
 
+  handleClick = (pageNumber) => (event) => {
+    console.log("page to navigate to", pageNumber)
+    this.props.goToPage(pageNumber);
+    event.preventDefault();
+  }
+
   render () {
     return (
       <div>
           <ul className="sidebar">
           {
-            this.state.pages.map(anc => (
+            this.state.pages.map((anc, index) => (
             <li className="link" key={anc.hash}>
               <div id="btn1" className={`${anc.isActive ? "r" :  "u"}`}></div>
               <a
                 className={`label ${anc.isActive ? "active" : "hidden"}`}
-                href={`#${anc.hash}`}
                 data-value={anc.hash}
-                onClick={this.handleClick}
+                href={`#${anc.hash}`}
+                onClick={this.handleClick(index)}
               >
                 {anc.title}
               </a>
