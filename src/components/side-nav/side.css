@@ -11,8 +11,8 @@
 	position: fixed;
 	display: block;
   left: 0;
-	margin-top: -78px;	
-  top: 30%; 
+	margin-top: -78px;
+  top: 30%;
   transform: translateY(-50%);
 	z-index: 5;
 	margin: 0 0 8px;
@@ -62,20 +62,8 @@
 	margin: 5px 0 0 14px;
 }
 
-li:active .u {
-	background-color: red;
-	margin-left: 13px;
-	opacity: 1;
-	width: 3px;
-	height: 23px;
-	position: relative;
-	transition: height .2s ease;
-	margin: 5px 0 0 14px;
-}
-
 .label {
 	animation: fadeout 2s ease .2s;
-	color: red;
 	float: left;
 	font-size: 10px;
   font-weight: 400;
@@ -93,7 +81,6 @@ li:active .u {
 
 .active  {
 	animation: fadeout 2s ease .2s;
-	color: red;
 	float: left;
 	font-size: 10px;
   font-weight: 400;
@@ -111,7 +98,6 @@ li:active .u {
 
 .label:hover {
 	animation: fadeout 2s ease .2s;
-	color: red;
 	float: left;
 	font-size: 10px;
   font-weight: 400;

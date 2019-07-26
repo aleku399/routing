@@ -2,8 +2,10 @@
 import React from 'react';
 
 import "./side.css";
+import { FullpageContext } from '@ap.cx/react-fullpage'
 
 class SideNav extends React.Component {
+  static contextType = FullpageContext;
 
   constructor(props) {
     super(props)
@@ -47,9 +49,9 @@ class SideNav extends React.Component {
         this.triggerRender = false;
         this.showLabel();
       }
-
-      this.addObserverToTargets();
     }
+
+    this.addObserverToTargets();
   }
 
 
@@ -73,7 +75,7 @@ class SideNav extends React.Component {
       const active = this.observed[this.observed.length - 1]
       const pages = this.state.pages.map(obj => {
         return active.hash === obj.hash
-          ? {...obj, isActive: true} : {...obj, isActive: false};
+          ? { ...obj, isActive: true, isActiveBar: true } : {...obj, isActive: false, isActiveBar: false};
        });
       this.setState({ pages });
       this.hideLabels();
@@ -89,25 +91,33 @@ class SideNav extends React.Component {
     }, 700);
   }
 
-  handleClick = (pageNumber) => (event) => {
-    console.log("page to navigate to", pageNumber)
-    this.props.goToPage(pageNumber);
+  handleClick = (slide) => (event) => {
+    console.log("slide to navigate to", slide)
+    this.goToSlide(slide);
     event.preventDefault();
   }
 
+  goToSlide = (slide) => {
+    const { goto } = this.context;
+    goto(slide);
+  };
+
   render () {
+    const { slides } = this.context;
+    const activePage = this.state.pages.find(page => page.isActiveBar);
     return (
       <div>
           <ul className="sidebar">
           {
             this.state.pages.map((anc, index) => (
             <li className="link" key={anc.hash}>
-              <div id="btn1" className={`${anc.isActive ? "r" :  "u"}`}></div>
+              <div id="btn1" className={`${anc.isActiveBar ? "r" :  "u"}`}></div>
               <a
-                className={`label ${anc.isActiveBar ? "active" : "hidden"}`}
+                className={`label ${anc.isActive ? "active" : "hidden"}`}
                 data-value={anc.hash}
+                style={{color: activePage ? activePage.color : "black"}}
                 href={`#${anc.hash}`}
-                onClick={this.handleClick(index)}
+                onClick={this.handleClick(slides[index])}
               >
                 {anc.title}
               </a>
