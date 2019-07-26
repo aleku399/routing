@@ -1,5 +1,6 @@
 import React from 'react'
 import "./news.css";
+// import SideNav from "./side-bar";
 
 const sectionStyle = {
   padding: '2.5vw 3.5vw 12vh 3.5vw',

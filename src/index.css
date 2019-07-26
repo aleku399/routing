@@ -1,15 +1,24 @@
-/* .container_scroll {
-  overflow-y: scroll; 
-  height: 100vh;
-
-  
-  scroll-snap-type: y mandatory;
+#fp-nav ul li a.active span {
+  background-color: red;
+	margin-left: 13px;
+	opacity: .25;
+	width: 3px;
+	height: 23px;
+	position: relative;
+	transition: height .2s ease;
+	margin: 5px 0 0 14px;
 }
 
-.child {
-  scroll-snap-align: start;
-  position: relative;
-} */
+#fp-nav ul li a span {
+	background-color: red;
+	margin-left: 13px;
+	opacity: 1;
+	width: 3px;
+	height: 23px;
+	position: relative;
+	transition: height .2s ease;
+	margin: 5px 0 0 14px;
+}
 
 .wbp_single{
   text-align: left;

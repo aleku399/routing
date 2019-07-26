@@ -104,7 +104,7 @@ class SideNav extends React.Component {
             <li className="link" key={anc.hash}>
               <div id="btn1" className={`${anc.isActive ? "r" :  "u"}`}></div>
               <a
-                className={`label ${anc.isActive ? "active" : "hidden"}`}
+                className={`label ${anc.isActiveBar ? "active" : "hidden"}`}
                 data-value={anc.hash}
                 href={`#${anc.hash}`}
                 onClick={this.handleClick(index)}
